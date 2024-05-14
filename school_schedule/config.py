@@ -1,0 +1,2 @@
+DATABASE_FILE = "schedule.db"
+MAX_LESSONS_PER_DAY = 5
