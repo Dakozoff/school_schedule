@@ -16,8 +16,10 @@ class Schedule:
         try:
             c.execute("INSERT INTO teachers (name) VALUES (?)", (name,))
             self.db.conn.commit()
+
         except sqlite3.IntegrityError:
             print(f"Учитель с именем «{name}» уже существует в базе данных.")
+
         else:
             print(f"Учитель «{name}» успешно добавлен.")
 
@@ -29,8 +31,10 @@ class Schedule:
         try:
             c.execute("INSERT INTO subjects (name) VALUES (?)", (name,))
             self.db.conn.commit()
+
         except sqlite3.IntegrityError:
             print(f"Предмет «{name}» уже существует в базе данных.")
+
         else:
             print(f"Предмет «{name}» успешно добавлен.")
 
@@ -46,8 +50,10 @@ class Schedule:
         try:
             c.execute("INSERT INTO classrooms (number, capacity) VALUES (?, ?)", (number, capacity))
             self.db.conn.commit()
+
         except sqlite3.IntegrityError:
             print(f"Класс «{number}» уже существует в базе данных.")
+
         else:
             print(f"Класс «{name}» со вместимостью {capacity} чел. успешно добавлен.")
 
@@ -124,6 +130,7 @@ class Schedule:
     
     def delete_schedule_item(self, subject_name, teacher_name):
         c = self.db.conn.cursor()
+
         subject_id = c.execute("SELECT id FROM subjects WHERE name = ?", (subject_name,)).fetchone()
         if subject_id is None:
             print(f"Предмет «{subject_name}» не найден.")
@@ -138,4 +145,5 @@ class Schedule:
         teacher_id = teacher_id[0]
         c.execute("UPDATE schedule SET deleted = 1 WHERE subject_id = ? AND teacher_id = ? AND date = ?", (subject_id, teacher_id, date.today().isoformat()))
         self.db.conn.commit()
+
         print(f"Элемент расписания для предмета «{subject_name}» и учителя «{teacher_name}» удален.")
